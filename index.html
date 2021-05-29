@@ -20,8 +20,12 @@
 <body>
     <canvas width="500" height="500"></canvas>
     <script>
+        //Ancho y alto de canvas
+        const LIENZO = 500;
+        //Intervalo de Loop
         const INTERVALO = 80;
         const NUM = 10;
+        //Config de direcciones
         const DIRECCION = {
             A:[-1,0],
             D:[1,0],
@@ -36,7 +40,14 @@
             ArrowRight: [1,0],
             ArrowLeft: [-1,0]
         }
-        let controls = {direccion:{x:1, y:0}, snake:[{x:0, y:0}]}
+        //Controles direccion y de snake
+        let controls = {
+            direccion:{x:1, y:0},
+            snake:[{x:0, y:0}],
+            comida:{x:0, y:250},
+            jugando: false
+        }
+        //var con las direcciones
         let movimiento
         //referencio el canvas en js
         let papel = document.querySelector("canvas");
@@ -44,7 +55,9 @@
         let ctx = papel.getContext("2d");
         
         let loop = () =>{
+            //Cabeza 
             const HEAD = controls.snake[0]
+            //Direccion actual
             let dx = controls.direccion.x;
             let dy = controls.direccion.y;
             HEAD.x += dx;
@@ -62,17 +75,33 @@
         }
         let dibujar = (color) =>{
         //Borra el canvas
-            ctx.clearRect(0,0,500,500)
+            ctx.clearRect(0,0,LIENZO,LIENZO)
         //Indico el color del dibujo a crear
             ctx.fillStyle = "green"
+        //Cabeza
             const HEAD = controls.snake [0]
         //Creo rectangulo (posicionX, posicionY, Ancho, Alto)
             ctx.fillRect(HEAD.x*NUM,HEAD.y*NUM,NUM,NUM)
         }
 
+        let random = () => {
+            let direccion = Object.values(DIRECCION)
+            return {
+                x: parseInt(Math.random()*LIENZO/NUM),
+                y: parseInt(Math.random()*LIENZO/NUM),
+                d: direccion[parseInt(Math.random()*11)]
+            }
+        }
+
         //Cuando el documento carga, llamo a loop
         window.onload = () =>{
-        // loop()
+            posiciones = random()
+            let cabeza = controls.snake[0]
+            cabeza.x = posiciones.x;
+            cabeza.y = posiciones.y;
+            controls.direccion.x = posiciones.d[0];
+            controls.direccion.y = posiciones.d[1];
+            loop()
         }
     </script>
 </body>
