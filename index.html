@@ -57,12 +57,19 @@
         let loop = () =>{
             //Cabeza 
             const HEAD = controls.snake[0]
+            let atrapado = HEAD.x == controls.comida.x && HEAD.y === controls.comida.y
             //Direccion actual
             let dx = controls.direccion.x;
             let dy = controls.direccion.y;
             HEAD.x += dx;
             HEAD.y += dy;
+            
+            if(atrapado){
+                comida2()
+            }
+            //Dibujo
             requestAnimationFrame(dibujar)
+            //Llamar a la funcion luego de X intervalo
             setTimeout(loop, INTERVALO)
         }
         document.onkeydown = (e) =>{
@@ -97,6 +104,13 @@
                 y: parseInt(Math.random()*LIENZO/NUM),
                 d: direccion[parseInt(Math.random()*11)]
             }
+        }
+
+        let comida2 = () =>{
+            let nuevaPosicion = random ()
+            let comida = controls.comida
+            comida.x = nuevaPosicion.x;
+            comida.y = nuevaPosicion.y;
         }
 
         //Cuando el documento carga, llamo a loop
