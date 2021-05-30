@@ -73,15 +73,21 @@
             controls.direccion.y = y;
             }
         }
-        let dibujar = (color) =>{
-        //Borra el canvas
+        let dibujar = () =>{
+            //Borra el canvas
             ctx.clearRect(0,0,LIENZO,LIENZO)
-        //Indico el color del dibujo a crear
-            ctx.fillStyle = "green"
-        //Cabeza
+            //Cabeza
             const HEAD = controls.snake [0]
-        //Creo rectangulo (posicionX, posicionY, Ancho, Alto)
-            ctx.fillRect(HEAD.x*NUM,HEAD.y*NUM,NUM,NUM)
+            const comida = controls.comida
+            dibujar2('green', HEAD.x, HEAD.y)
+            dibujar2('yellow', comida.x, comida.y)
+        }
+
+        let dibujar2 = (color, x, y) => {
+            //Indico el color del dibujo a crear
+            ctx.fillStyle = color
+            //Creo rectangulo (posicionX, posicionY, Ancho, Alto)
+            ctx.fillRect(x*NUM,y*NUM,NUM,NUM)
         }
 
         let random = () => {
@@ -101,6 +107,11 @@
             cabeza.y = posiciones.y;
             controls.direccion.x = posiciones.d[0];
             controls.direccion.y = posiciones.d[1];
+            //Posición random de la comida
+            posicionComida = random()
+            let comida = controls.comida
+            comida.x = posicionComida.x;
+            comida.y = posicionComida.y;
             loop()
         }
     </script>
